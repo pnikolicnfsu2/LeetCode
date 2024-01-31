@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <string.h>
+
+int romanToInt(char* str) {
+  int br = 0;
+  int n = strlen(str);
+  for (int i = 0; i < n; i++) {
+    if (str[i] == 'I') {
+      if (str[i + 1] == 'V') {
+        br += 4;
+        i += 1;
+        continue;
+      } else if (str[i + 1] == 'X') {
+        br += 9;
+        i += 1;
+        continue;
+      } else
+        br += 1;
+      continue;
+    } else if (str[i] == 'X') {
+      if (str[i + 1] == 'L') {
+        br += 40;
+        i += 1;
+        continue;
+      } else if (str[i + 1] == 'C') {
+        br += 90;
+        i += 1;
+        continue;
+      } else
+        br += 10;
+      continue;
+    } else if (str[i] == 'V') {
+      br += 5;
+      continue;
+    } else if (str[i] == 'L') {
+      br += 50;
+      continue;
+    } else if (str[i] == 'C') {
+      if (str[i + 1] == 'D') {
+        br += 400;
+        i += 1;
+        continue;
+      } else if (str[i + 1] == 'M') {
+        br += 900;
+        i += 1;
+        continue;
+      } else
+        br += 100;
+    } else if (str[i] == 'D') {
+      br += 500;
+      continue;
+    } else if (str[i] == 'M') {
+      br += 1000;
+      continue;
+    }
+  }
+  return br;
+}
+
+int main() {
+  char str[100];
+  fgets(str, sizeof(str), stdin);
+  str[strlen(str) - 1] = '\0';
+  printf("%d ", romanToInt(str));
+  return 0;
+}
