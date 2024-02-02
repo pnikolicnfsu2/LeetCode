@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <string.h>
+
+typedef struct {
+    char data[10000]; // Assuming maximum string length is 1000
+    int top; // Index of the top element
+} Stack;
+
+// Function to initialize the stack
+void initialize(Stack* stack) {
+    stack->top = -1; // Set top to -1 to indicate an empty stack
+}
+
+// Function to push an element onto the stack
+void push(Stack* stack, char value) {
+    stack->data[++stack->top] = value; // Increment top and add value to data
+}
+
+// Function to pop an element from the stack
+char pop(Stack* stack) {
+    return stack->data[stack->top--]; // Return top element and decrement top
+}
+
+// Function to check if the stack is empty
+bool isEmpty(Stack* stack) {
+    return stack->top == -1; // If top is -1, stack is empty
+}
+
+// Function to check if string is valid
+bool isValid(char* s) {
+    Stack st; // Declare a stack
+    initialize(&st); // Initialize the stack
+
+    // Loop through each character in the string
+    for (int i = 0; s[i] != '\0'; i++) {
+        char c = s[i];
+        // If the character is an opening bracket
+        if (c == '(' || c == '{' || c == '[') {
+            push(&st, c); // Push it onto the stack
+        } else { // If the character is a closing bracket
+            // If the stack is empty or the closing bracket doesn't match
+            // the corresponding opening bracket at the top of the stack
+            if (isEmpty(&st) ||
+                (c == ')' && pop(&st) != '(') ||
+                (c == '}' && pop(&st) != '{') ||
+                (c == ']' && pop(&st) != '[')) {
+                return false; // The string is not valid
+            }
+        }
+    }
+
+    return isEmpty(&st); // If the stack is empty, string is valid
+}
